@@ -1,0 +1,54 @@
+﻿Step 1
+Create Configuration folder, Create a Model class inside the Configuration folder for retrieving data from the appsettings.json. 
+[Check Source Code]
+
+Step 2
+Create a two appsettings.json file. 
+	file name should be like this.
+	1. appsettings.Development.json // for Development
+	{
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "AllowedHosts": "*",
+      "Secret": {
+        "Key": "Hello-Development"
+        }
+    }
+    2. appsettings.Production.json // for Production
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "AllowedHosts": "*",
+      "Secret": {
+        "Key": "Hello-Production"
+        }
+    }
+
+Step 3;
+Go to StartUp class -> in the ConfigureService method add the following code.
+
+ services.Configure<SecretModel>((config) => Configuration.GetSection("Secret").Bind(config));
+
+ // Configure SecretModel for retrieving data from the json.
+
+ Step 4:
+ Go to Controller folder, Create a DemoController and inject IOption interface. [Check Source Code]
+ // Retrieve the Key name as per the environment.
+
+ Step 5:
+ Go to Properties folder, Open launchSetting.json file where you can able to change the environment variable.
+    "ASPNETCORE_ENVIRONMENT": "Production" // Development
+Whenever you change the environment variable name then system will pick the value from appsettings.json file(as per environment file).
+
+
+Or you can use IWebHostEnvironment for the check the environment. [Check DemoEnvironmentController code]
